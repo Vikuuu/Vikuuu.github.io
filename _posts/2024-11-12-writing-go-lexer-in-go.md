@@ -314,7 +314,7 @@ func TestLexer(t *testing.T) {
         {Type: STRING, Literal: "string"},
         {Type: IDENT, Literal: "IsActive"},
         {Type: BOOL, Literal: "bool"},
-        {Type: RBRACE, "}"},
+        {Type: RBRACE, Literal: "}"},
         {Type: EOF, Literal: ""},
     }
 
