@@ -627,11 +627,11 @@ func cmdAddHandler(args []string) error {
 +               return err
 +           }
 
--           data, err := os.ReadFile(ap)
++           data, err := os.ReadFile(ap)
             if err != nil {
                 return err
             }
--           stat, err := os.Stat(ap)
++           stat, err := os.Stat(ap)
             if err != nil {
                 return err
             }
@@ -642,7 +642,7 @@ func cmdAddHandler(args []string) error {
                 return err
             }
 
--           index.Add(p, hash, stat)
++           index.Add(p, hash, stat)
         }
     }
     res, err := index.WriteUpdate()
