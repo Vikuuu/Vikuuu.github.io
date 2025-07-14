@@ -1,14 +1,14 @@
 ![inverted index image](/assets/img/index.png)
 
-Inverted index is the data structure that powers the most if not all the **Infomation Retrieval** mechanisms,
-be it _web search engine_, _elasticsearch_ (which is powered by _Apache Lucene_ under the hood written in Yava{Java}).
-I started reading about it after getting to know that _Elastic Search_ uses different type of database data indexing
+Inverted index is the data-structure that powers the most if not all the **Information Retrieval** mechanisms,
+be it _web search engine_, _ElasticSearch_ (which is powered by _Apache Lucene_ under the hood written in Yava{Java}).
+I started reading about it after getting to know that _ElasticSearch_ uses different type of database data indexing
 from my senior. So I did what I wanted to do, starting reading a little about it and started to think about implementing
 it (who wouldn't want to do that).
 
 In this blog, I will be sharing how I created a _toy_ **Inverted Index** data-structure, and will(not) be creating a
 simple parser for **Boolean Query** to retrieve the
-relevent data that I want(maybe next time).
+relevant data that I want(maybe next time).
 
 ## What is Inverted Index
 
@@ -16,7 +16,7 @@ Heck, what the hell is _Information Retrieval_. Anything that would require us t
 of unstructured data from some small context. You searching anything on the web, the swarm of the unstructured data be
 it good or bad (your luck man...) based on some keywords that you give to the search engine.
 
-_Information Retrieval_ has been a critical part of human history(I don't know if its that deep). Like you trying to
+_Information Retrieval_ has been a critical part of human history(I don't know if it's that deep). Like you trying to
 find a book on how to **Rizz a gal** from library, so you tell the description of what you are looking or some important
 keywords. Using that either description or keyword, the librarian will get you the best book that might be available at
 the library or what the librarian will think is the best.
@@ -42,7 +42,7 @@ Above is the diagram that I made to represent what I meant.
 
 ## Toy Inverted Index
 
-So, first I want to have 2 strings, and I want to create an Inverted index on those. For doing so we have to firslty
+So, first I want to have 2 strings, and I want to create an Inverted index on those. For doing so we have to firstly
 process those string i.e., making them go through some kind of language processing and getting the output and then
 creating an inverted index on that processed data.
 
@@ -197,12 +197,13 @@ func stemmer(tokens []Token) []Token {
 }
 ```
 
-We are firstly, initializing an `map`, that contains all the _english_ stopwords. Stopwords are words that themselves
+We are firstly, initializing an `map`, that contains all the _English_ stop words. Stop words are words that themselves
 do not add any meaning to a sentence for natural language processing. So we want to filter these words out, we
-wouldn't want to _index_ words that in of itself do not add any meaning to the document(let's save some precious space).
+wouldn't want to _index_ words that in and of itself do not add any meaning to the document(let's save some precious space).
 
 Then we **lemmetize** our word, now _lemmetization_ is the process of converting a word to its base form or grouping
-different inflected forms of a word so they can be analyzed as a single item i.e., words _good_, _best_, _better_ can
+different inflected forms of a word so they can be analyzed as a single item.
+Example words _good_, _best_, _better_ can
 be reduced to a single word _good_. By doing this we can index different word that would mean same thing using only a
 single word.
 
@@ -304,14 +305,14 @@ func indexer(tokens []Token, docID int) *IR {
 ```
 
 The structure of the _Inverted Index_ is very simple, we are creating a `map` that will maps the word(string) to the
-slice of int's(acting as docID).
+slice of int (acting as `docID`).
 
 Now, we want to persist our index, so that if we want we can feed our _indexer_ data in multiple iteration. For this
 I am using `encoding/gob` package, that encodes the go data structure so that transferring can become easy. We will
 be saving this data to a file, we can do so because gob `encoder` and `decoder` uses the interface `io.Reader` and
 `io.Writer` and we can get them by opening a file.
 
-Then creating the _index_ is pretty easy, just loop over the tokens map them to the slice of docID's.
+Then creating the _index_ is pretty easy, just loop over the token map them to the slice of `docID`.
 
 And there you have it, your own toy **Inverted Index**.
 
@@ -412,7 +413,7 @@ Now, run the command
 go run . init
 ```
 
-and you would get this output at the last
+And you would get this output at the last
 
 ```
 Printing the index.
@@ -431,7 +432,7 @@ word: tell, list: [2]
 
 ## Afterwords
 
-So, with this we have our toy _Inverted Index_ structure that can help us with _IR_.
+So, with this we have our toy _Inverted Index_ structure that can help us with _Information Retrieval_.
 
 [Code link](https://github.com/Vikuuu/inverted-index)
 
@@ -443,6 +444,6 @@ Just know this,
 
 ## References
 
-- [Stanford IR book](https://nlp.stanford.edu/IR-book/html/htmledition/a-first-take-at-building-an-inverted-index-1.html)
+- [Stanford Information Retrieval book](https://nlp.stanford.edu/IR-book/html/htmledition/a-first-take-at-building-an-inverted-index-1.html)
 - [Simple Tokenizer in Golang](https://towardsdev.com/simple-tokenizer-in-golang-5163598a8079)
 - [Data Serialization in Go](https://dev.to/canopassoftware/how-to-do-data-serialization-and-deserialization-in-golang-41mi)
