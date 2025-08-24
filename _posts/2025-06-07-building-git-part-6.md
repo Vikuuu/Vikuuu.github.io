@@ -18,7 +18,7 @@ So in this part we will be updating our `add` command so that it can add the fil
 We want to support the incremental update support, i.e. we want to use multiple `add` commands to update our
 staging area. And come let's do that.
 
-##### Parsing the .git/index
+##### Parsing the `.git/index`
 
 Firstly, we will update our handler function to not create a new instance of
 `index` but call a function `IndexHoldForUpdate` that will create a new `index` instance for
@@ -121,9 +121,9 @@ func (i *Index) readHeader(f *os.File, h *bytes.Buffer) int {
 }
 ```
 
-Here we read the file, and then get the signature, version and count of the entries
+Here we read the file, and then get the signature, version, and count of the entries
 by splicing the `data` `[]byte`.
-We know that signature, version and count all of these three occupy the
+We know that signature, version, and count all of these three occupy the
 4 byte in the index file. Then we verify that signature and version are what
 we expect them to be. If they are then we write that data into our `[]byte` slice named hash we created in the `load` method.
 
@@ -169,7 +169,7 @@ func (i *Index) readEntries(r io.Reader, count int, h *bytes.Buffer) {
 
 First, we read the data for `ENTRYMINSIZE` count, if we do not find the
 nil byte in that block, then we again read the next **8** bytes, until we find the nil byte.
-And store it in the our `Index` and write it in our `hash` byte slice.
+And store it in our `Index` and write it in our `hash` byte slice.
 
 ```go
 func verifyChecksum(f io.Reader, h *bytes.Buffer) {
@@ -193,7 +193,7 @@ You guys can, give better variable name then me, I am just going with the flow.
 We read the remaining data in the file, that will hopefully only be the `SHA1` hash of the index file.
 We are just checking for the equality here.
 
-Now lets create the `storeEntryByte` function that we used in our `readEntries` function.
+Now let's create the `storeEntryByte` function that we used in our `readEntries` function.
 We read the bytes of the entries and now we want to **deserialize** them to the `IndexEntry` struct.
 
 ```go
@@ -246,7 +246,7 @@ Let's update update our index writing function.
 
 `index.go`
 
-```go
+```diff
 func (i *Index) WriteUpdate() (bool, error) {
 -	b, err := i.lockfile.holdForUpdate()
 -	if err != nil {
@@ -291,12 +291,12 @@ We created the `rollback` function to rollback any changes we might have made up
 
 #### Committing from Index
 
-Now that we are can incrementally update our index file, now it s time to update our `commit` command to
+Now that we are can incrementally update our index file, now it's time to update our `commit` command to
 commit the files that are in the `index` file.
 
 `cmd/gitgo/cmdHandler.go`
 
-```go
+```diff
 func cmdCommitHandler(_ string) error {
 -	rootPath := gitgo.ROOTPATH
 -	// storing all the blobs first
@@ -566,7 +566,7 @@ func TestReplaceNestedDirWithFile(t *testing.T) {
 In this case, we have a dir `nested` that has a file `bob.txt` but in the next `add` command,
 we changed the structure and `nested` became a file. And same for the `nested` with the nested files.
 
-To update our code to correct this, thing we will have to change the our `Index` struct.
+To update our code to correct this, thing we will have to change our `Index` struct.
 Currently, we storing things like this
 
 ```go
@@ -642,7 +642,7 @@ func (s *Set) IsEmpty() bool {
 }
 ```
 
-Simple right.. ?
+Simple right...?
 
 `index.go`
 
@@ -752,12 +752,12 @@ I am passing all my test cases.
 
 Our current implementation of the `add` command works very great, but under an assumption that our user is intelligent
 and will always provide us with the correct file or directory input. Alas, that is not always the case. The user might
-accidently provide the wrong file name or a file name that might not even exists in the repository.
+accidently provide the wrong filename or a filename that might not even exists in the repository.
 
 ##### Handling non-existent file
 
 Now, we want to handle the bad input that our user might throw at us.
-Let's see how git handles this?
+Let's see how, git handles this?
 
 ```bash
 mkdir gitgo-test && cd gitgo-test
@@ -781,7 +781,7 @@ file do not exists.
 cat: .git/index: No such file or directory
 ```
 
-So, for replicating that we will have to update our `cmdAddHandler` first to add all the files in an _slice_ using the
+So, for replicating that we will have to update our `cmdAddHandler` first to add all the files in a _slice_ using the
 `ListFiles` function, we want this function to return an **error** if the file do not exists in the actual repository.
 If it returns the _error_ we will then exit the function early and return the _error_ indicating **failure**. If error
 does not occur in the `ListFiles` function that we can iterate over the _slice_ in which we added all the file paths and
@@ -791,7 +791,7 @@ In our `cmdAddHandler` function we will have to update the _iteration_ block, as
 
 `cmd/gitgo/cmdHandler.go`
 
-```go
+```diff
 // @@ -112,39 +112,46 @@ func cmdCatFileHandler(hash string) error {
  func cmdAddHandler(args []string) error {
  	// index := gitgo.NewIndex()
@@ -918,7 +918,7 @@ Easy.
 
 ##### Unreadable File
 
-Now, there might happen that the reader have given us a file name, that we cannot read(i.e. we do not have the appropriate
+Now, there might happen that the reader have given us a filename, that we cannot read(i.e. we do not have the appropriate
 permission to do so). Let's see what happens in the `git` when we do this.
 
 ```bash
@@ -934,7 +934,7 @@ I changed the permission our file by removing the reading permission and as we c
 
 `cmd/gitgo/cmdHandler.go`
 
-```go
+```diff
 // @@ -136,6 +136,9 @@ func cmdAddHandler(args []string) error {
 
  		data, err := os.ReadFile(ap)
@@ -947,7 +947,7 @@ I changed the permission our file by removing the reading permission and as we c
  		stat, err := os.Stat(ap)
 ```
 
-In our case the fix is very easy for us, we just want to give an better error message to our user.
+In our case the fix is very easy for us, we just want to give a better error message to our user.
 
 ##### Locked Index file
 
@@ -973,7 +973,7 @@ Now in our `IndexHoldForUpdate` we want to return an error, if the file is alrea
 
 `index.go`
 
-```go
+```diff
 // @@ -60,20 +60,20 @@ func (i *Index) Entries() []Entries {
  	return e
  }
@@ -1006,7 +1006,7 @@ have updated how I am checking for the errors).
 
 `lockfile.go`
 
-```go
+```diff
 // @@ -5,6 +5,7 @@ import (
  	"log"
  	"os"
@@ -1049,7 +1049,7 @@ have updated how I am checking for the errors).
 
 Now we can update our `ref` file, to better reflect our update in the `lockfile`.
 
-```go
+```diff
 // @@ -2,7 +2,6 @@ package gitgo
 
  import (
@@ -1075,7 +1075,7 @@ And lastly the `cmdAddHandler`, we are now returning a better error message.
 
 `cmd/gitgo/cmdHandler.go`
 
-```go
+```diff
 // @@ -111,7 +111,16 @@ func cmdCatFileHandler(hash string) error {
 
  func cmdAddHandler(args []string) error {

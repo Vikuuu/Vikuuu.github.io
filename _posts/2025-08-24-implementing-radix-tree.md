@@ -29,7 +29,7 @@ package whatever
 import (
     "testing"
 
-	"github.com/stretchr/testify/assert"
+    "github.com/stretchr/testify/assert"
 )
 
 func TestTrie(t *testing.T) {
@@ -134,18 +134,23 @@ func getIndex(r rune) (int, error) {
 
 The first method we would want to build is `Search`.
 The algo will go like this
-1) Tranverse the given word
-2) Check if the character is present in the trie, if it is then we move onto that
+1) Traverse the given word,
+
+2) Check if the character is present in the trie, if it is then we move onto that, and
+
 3) If the character is not present, then the word is not in the trie and return error.
 
 Lastly, if every thing goes well we will be at the word's last character node. Now if it is not a word return error else nothing.
 
-```go
+```diff
 import (
     "error"
 +   "strings"
 )
+```
 
+
+```go
 func (t *Trie) Search(word string) error {
     if word == "" {
         return ErrEmptyWord
