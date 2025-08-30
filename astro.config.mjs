@@ -14,7 +14,6 @@ export default defineConfig({
   output: "static",
   prefetch: true,
   site: "https://vikuuu.github.io",
-  base: "/test-blog",
   vite: {
     plugins: [tailwindcss()],
   },
