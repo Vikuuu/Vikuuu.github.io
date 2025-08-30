@@ -1,13 +1,9 @@
 ---
 title: "Building Git: part VI"
 pubDate: 2025-06-07
-description: ""
-ogImage: "https://sunguoqi.com/me.png"
-author: ""
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: []
+description: "Extending the `add` command"
+author: "Guts Thakur"
+tags: ["git", "go", "system-tools"]
 ---
 ## Building Git: Part VI
 
@@ -20,7 +16,7 @@ files that are present in our _staging area_. But there are some problem with ou
 That is when we call our `add` command it overwrites all the files that are already present in the
 `index` file and starts from new blank state. This is not helpfull at all, imagine you added some files
 to the staging area, and after that also edited some other files and then added them to the staging area
-and commited the staging files, but to your surprise only the files that you added using the second `add` command that you used.
+and commited the staging files. But to your surprise only the files that you added using the second `add` command that you used.
 Not good right.
 
 #### Incremental addition
@@ -337,7 +333,7 @@ func cmdCommitHandler(_ string) error {
 ```
 
 Previously, we were building the tree from the whole files and directory in the root directory,
-but now we do not have to do that, we should now only build tree from the files that are
+but now we do not have to do that. We should now only build tree from the files that are
 provided to us in the index entry.
 
 And after commit we are removing the `index` file so that all the `index` entries are removed.
@@ -380,7 +376,7 @@ Well, our current implementation has a problem.
 
 Let's suppose we added file called **file1.txt** in our `index` file using the add command.
 And now we changed the **file1.txt** file to be a directory and added a new file in it like
-**file1.txt/some.txt**, now if we again use the `add` command, we can save this new change just fine, we do not have the problem
+**file1.txt/some.txt**, now if we again use the `add` command. We can save this new change just fine, we do not have the problem
 there, but we want to update our file structure in the index file.
 
 If you check your index file, you can see both the entries for the **file1.txt** and **file1.txt/some.txt**,
@@ -464,7 +460,7 @@ func TestAddSingleFile(t *testing.T) {
 }
 ```
 
-I'm making use of the `testify` package, for asserts in testing, rather using the `go`'s _table-driven tests_
+I'm making use of the `testify` package, for asserts in testing, rather using the *Go's* table-driven tests_
 because I like this way.
 
 Run the test and it should pass(fingers crossed).
@@ -876,12 +872,12 @@ In our `cmdAddHandler` function we will have to update the _iteration_ block, as
 ```
 
 In our `ListFiles` function we are just now checking if our **syscall** to the `Stat` on the file or directory name
-returned any error, if it did that would possibly means(not neccessarily) that the file is not present in the actual
+returned any error. If it did that would possibly means(not neccessarily) that the file is not present in the actual
 repository.
 
 `files.go`
 
-```go
+```diff
 // @@ -1,12 +1,15 @@
  package gitgo
 
@@ -916,7 +912,7 @@ when the next instance of the `gitgo` runs it does not file `index.lock` file.
 
 `index.go`
 
-```go
+```diff
 // @@ -423,3 +423,5 @@ func writeIndexEntry(entry IndexEntry) ([]byte, error) {
  	}
  	return b.Bytes(), nil
@@ -1124,4 +1120,4 @@ Just know this,
 
 > Reinvent the wheel, so that you can learn how to invent wheel
 >
-> -- a nobody
+> – a nobody

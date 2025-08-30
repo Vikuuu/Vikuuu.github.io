@@ -1,13 +1,9 @@
 ---
 title: "Building Git: part IV"
 pubDate: 2025-03-31
-description: ""
-ogImage: "https://sunguoqi.com/me.png"
-author: ""
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: []
+description: "Extending gitgo, to store sub-directories"
+author: "Guts Thakur"
+tags: ["git", "go", "system-tools"]
 ---
 ## Building Git: Part IV
 
@@ -15,8 +11,8 @@ tags: []
 
 Yo what's good, guys? What amazing project you guys are working on?
 In the previous part we built the link to the past, aka commit history.
-Currently, in our implementation we are just storing only the single
-tree (or the root directory) but the git also stores all the sub-directories
+Currently, in our implementation we are just storing only the singletree 
+(or the root directory) but the git also stores all the sub-directories
 in the root directory or the directory in which the `.git` file has been
 initialized.
 
@@ -132,9 +128,9 @@ With this, now we can store the executable files in our tree structure.
 
 #### Nested tree
 
-Firstly, we will have to see how git stores the sub-direcotries.
+Firstly, we will have to see how, git stores the sub-direcotries.
 
-Lets make a new directory to test this out.
+Let's make a new directory to test this out.
 
 ```bash
 mkdir test && cd test
@@ -186,9 +182,9 @@ Now lets see inside the `folder2`.
 
 Now we only get a blob object, because we only have a single file in `folder2`
 
-As we saw in the above examples, the tree blob stores the another
+As we saw in the above examples, the tree blob stores another
 tree hash, for the sub-directories and then that tree stores the hash
-for the blob objects, this tree structure in called [Merkle tree](https://en.wikipedia.org/wiki/Merkle_tree),
+for the blob objects. This tree structure in called [Merkle tree](https://en.wikipedia.org/wiki/Merkle_tree),
 in merkle tree the parent holds the hash of its children.
 
 ##### Building a Merkle tree
@@ -270,7 +266,7 @@ adding the files, so that we get only the file paths.
 
 Now we can change our `cmdHandler` function to first store all the blob objects
 to the disk using this flatten list returned to it, and then try to create a tree
-structure from the given flatten list, and then store all the sub-tree object
+structure from the given flatten list. And then store all the sub-tree object
 and then lastly the root tree object onto the disk.
 
 `cmd/gitgo/cmdHandler.go`
@@ -307,7 +303,7 @@ func cmdCommitHandler(_ string) error {
 In this we laid out the structure, now build how we are goint to
 accomplish this.
 
-Let move the `Entries` struct to a new file
+Let's move the `Entries` struct to a new file
 
 `entries.go`
 
@@ -327,9 +323,9 @@ func NewEntry(name, oid, stat string) *Entries {
 
 `database.go`
 
-Lets change the name of our previous `Tree` struct
+Let's change the name of our previous `Tree` struct
 
-```go
+```diff
 -type Tree struct {
 +type TreeBlob struct {
  	Prefix string
@@ -398,7 +394,7 @@ Lets change the name of our previous `Tree` struct
  	}
 ```
 
-After all the patching, lets write the code for abstracting the storage
+After all the patching, let's write the code for abstracting the storage
 of the blob object,
 
 `database.go`
@@ -532,7 +528,7 @@ func TraverseTree(tree *Tree) ([]Entries, error) {
 }
 ```
 
-Lets move the `CreateTreeEntry` function from the `database.go` to the `tree.go`
+Let's move the `CreateTreeEntry` function from the `database.go` to the `tree.go`
 
 `tree.go`
 
@@ -559,7 +555,7 @@ func CreateTreeEntry(entries []Entries) bytes.Buffer {
 In our `CreateTreeEntry` function we added the sorting function,
 to first sort all the entries, and then write them to the disk,
 because `git` also firstly sorts the directory and then stores them
-to the disk, this help in know if there is any change in the directory
+to the disk. This help in know if there is any change in the directory
 structure or not.
 
 ##### Design choice
@@ -594,4 +590,4 @@ Just know this,
 
 > Reinvent the wheel, so that you can learn how to invent wheel
 >
-> -- a nobody
+> – a nobody

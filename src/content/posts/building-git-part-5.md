@@ -1,13 +1,9 @@
 ---
 title: "Building Git: part V"
 pubDate: 2025-05-03
-description: ""
-ogImage: "https://sunguoqi.com/me.png"
-author: ""
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: []
+description: "Adding the `add` command in our gitgo arsenal"
+author: "Guts Thakur"
+tags: ["git", "go", "system-tools"]
 ---
 ## Building Git: Part V
 
@@ -16,7 +12,7 @@ tags: []
 Hola amigos!
 
 In previous part we updated our code to store the executable files by storing
-the correct file mode, and the **major** update in the code we did was storing
+the correct file mode. And the **major** update in the code we did was storing
 the proper directory structure, i.e. storing all the sub-directories inside the root
 directory by firstly storing all the blob files and then creating the merkle tree.
 
@@ -27,7 +23,7 @@ so that we can choose what file we want to add in the commit.
 
 #### Adding `add` command
 
-Well, how does `git` do this? Git maintains a file in `.git/` directory called `index`. In this file `git` stores
+How, does `git` do this? Git maintains a file in `.git/` directory called `index`. In this file `git` stores
 the file that you have added using the `git add` command. And then when you run the `git commit` command, it commits
 the file from this index file.
 
@@ -62,10 +58,10 @@ We are all too familiar with this type of output by now, so let's get its hexdum
 
 Firstly we are greated with the **12 byte** header in the file. The first 4 byte tells us the string named `DIRC`.
 The `DIRC` `(44 49 52 43)` in the starting of the file, just tells the git or anyone inspecting the file that
-this is the **Directory Cache** (gits terminology), that tells that these files are in the
+this is the **Directory Cache** (gits terminology). That tells that these files are in the
 staging area, or you can say ready to be committed.
 
-The string is followed by 4-byte number (00 00 00 02), `2` which tells us the version of the git index format, followed by another 4-byte number (00 00 00 01), `1` which tells us the
+The string is followed by 4-byte number (00 00 00 02), `2` which tells us the version of the git index format, followed by another 4-byte number (00 00 00 01). `1` which tells us 
 the number entries in the `.git/index` file or in the staging area, we only have 1 file in the staging area so this also checks out.
 
 Now that we are done with the headers, then comes the time for the data of the entries.
@@ -96,7 +92,7 @@ The index entry consists of:
 11. File Path
     `66 69 6c 65 31 2e 74 78 74`, 9-byte file name, translated to **file1.txt**
 12. Null byte terminator and padding
-    After the file path we have a null terminator that ends the detail of all the entries, all the data above us and the null terminator should be
+    After the file path we have a null terminator that ends the detail of all the entries. All the data above us and the null terminator should be
     the multiple of 8, if it is not then we add more null terminator as padding to make it the multiple of 8.
 13. 160-bit SHA-1 hash
     The remaining 20-bytes acts as a checksum, calcualted using all the above content of the
@@ -106,7 +102,7 @@ You can read more about this [here](https://mincong.io/2018/04/28/git-index/)
 
 One more thing, can you check if you have anything in the `objects` directory. I'm waiting.
 
-....
+...
 
 Hmmm, we have a blob object there don't we? That matches the object id that we saw in the index file.
 Well yes, git stores it in the `objects` directory when we add them to the staging area. Maybe to make the commiting fast(I don't know I just want to copy it.)
@@ -396,7 +392,7 @@ we are making use of the `lockFile` for preventing the race condition as we
 did with the writing of the `HEAD` file.
 
 Firstly, we obtain the lock, create a buffer, write headers to the buffer and
-then iterate over the map of entries, and write all of there metadata to the buffer,
+then iterate over the map of entries. And write all of there metadata to the buffer,
 after writing all the content we get the SHA-1 hash for all the content in our buffer.
 And lastly we commit the data to the `index` file via lockfile commit function, that
 writes all the data to the file and remove the lock to the file.
@@ -439,18 +435,18 @@ file in the increaments as the user wants.
 For this we want to store the file provided to us in the sorted order. In our
 current implementation we are getting only a single file as the input to our
 `add` handler, but now we want to extend this capability and be able to add multiple files.
-And the important thing is this, `git` stores these files in the sorted order. So want a way
+And the important thing is this, `git` stores these files in the sorted order. So we want a way
 to add mutiple files and sort them at the same time.
 For this purpose we can make use of the _Sorted Set_ data structure. As we are building this
 in _Go_ we do not have built-in _Sorted Set_, so we will have to create it our self. I have
 implemented the _Sorted Set_ in [this](https://vikuuu.github.io/2025-04-21-implementing-sorted-set-in-go/)
-blog so I want be mentioning about it here.
+blog so I won't be mentioning about it here.
 
 Let's update our structure.
 
 `index.go`
 
-```go
+```diff
 
   type Index struct {
   	entries  map[string]IndexEntry
@@ -508,7 +504,7 @@ Let's update our structure.
 
 We only update a little bit of code in our `index.go` to accomodate the new criteria. We will add
 the files that are given to us and then add them to the sorted set, it will be added in the
-sorted order (our implementation will take care of it), and then we loop over the set
+sorted order (our implementation will take care of it). And then we loop over the set
 and write the data to the index file.
 
 Now we will have to update our `add` handler accordingly, to store multiple files if provided to it.
@@ -563,7 +559,7 @@ For this we will have to update our `ListFiles` function in the `files.go` file.
 
 `files.go`
 
-```go
+```diff 
 func ListFiles(dir string) ([]string, error) {
     var workfiles []string
 
@@ -618,7 +614,7 @@ Now let's update the `cmdHandler` to reflect the changes we made in our `add` fu
 
 `cmd/gitgo/cmdHandler.go`
 
-```go
+```diff
 func cmdAddHandler(args []string) error {
     index := gitgo.NewIndex()
     for _, path := range args {
@@ -686,4 +682,4 @@ Just know this,
 
 > Reinvent the wheel, so that you can learn how to invent wheel
 >
-> -- a nobody
+> – a nobody

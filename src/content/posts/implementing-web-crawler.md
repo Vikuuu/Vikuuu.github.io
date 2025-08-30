@@ -1,13 +1,9 @@
 ---
 title: "Implementing Web Crawler"
 pubDate: 2025-05-29
-description: ""
-ogImage: "https://sunguoqi.com/me.png"
-author: ""
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: []
+description: "Implementing basic Web crawler in Go"
+author: "Guts Thakur"
+tags: ["web-crawler", "go"]
 ---
 In the past week, I implemented a simple and basic **web crawler** using _Go_. And I'm here to share how I did it.
 
@@ -46,7 +42,7 @@ Phewww, we have done the hardest part in our coding that is printing **Hello wor
 
 ### Normalize URL
 
-Now, before fetching the website's content we want to create a way to normalize the url, so that
+Now, before fetching the website's content we want to create a way to normalize the url. So that
 if we get multiple urls that are pointing to same location but have difference in protocol, or casing of the letters or
 trailing slash or not.
 
@@ -260,7 +256,7 @@ We are creating the `io.Reader` on the html string data we get, because for pars
 `golang.org/x/net/html` package, and in its `Parse` function it takes the `io.Reader` as input.
 
 Then we traverse the _tree_ structure created by parsing the html and we specifically looking for
-`a` tag, and `href` attribute inside it, if we get the `href` attribute in it we parse it
+`a` tag, and `href` attribute inside it. If we get the `href` attribute in it we parse it
 and resolve it against the base url of the HTML we are parsing, because sometime it may happen that the Url we get
 is relative to the Url we are on.
 
@@ -450,7 +446,7 @@ With this we have written the logic of crawling the web page.
 
 ### Starting point
 
-Now we just need to update the `main.go` which will take the the arguments using terminal.
+Now we just need to update the `main.go` which will take the arguments using terminal.
 
 ```go
 // main.go
@@ -524,4 +520,4 @@ Just know this,
 
 > Reinvent the wheel, so that you can learn how to invent wheel
 >
-> -- a nobody
+> – a nobody

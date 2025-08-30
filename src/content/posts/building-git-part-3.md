@@ -1,13 +1,9 @@
 ---
 title: "Building Git: part III"
 pubDate: 2025-03-07
-description: ""
-ogImage: "https://sunguoqi.com/me.png"
-author: ""
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: []
+description: "In this part, adding the link to the parent and more."
+author: "Guts Thakur"
+tags: ["git", "go", "system-tools"]
 ---
 ## Building Git: Part III
 
@@ -28,12 +24,12 @@ on the every subsequent commits to make a history, and to be able to trace all t
 does not have the `parent` field in the commit object, but every following commits contains a `parent` field telling `git`
 where this `commit` inherits from, for the case of `merge` the commit has two parents. The `git` uses this to sort all the
 `commit` and make a tree structure. **Git** do not uses the timestamp for sorting all the commits as it will be harder,
-and not feasable when working with the team, as two people can make a `commit` at same time, so timestamp it not a
+and not feasable when working with the team. As two people can make a `commit` at same time, so timestamp it not a
 good parameter to sort the commits. For this we use the `parent` field, if a user wants the latest 5 commits, we can
 easily show the user all the commits by getting the latest commit from the `.git/HEAD` and then tracing the parent `commit` of all the `commit`
 till we have 5 `commits`.
 
-It is more robust to put the idea that commit B is derived from commit A into data model; it makes calculating what
+It is more robust to put the idea that commit `B` is derived from commit `A` into data model; it makes calculating what
 changed on different people's branches, and merging those changes together. We will see more on these when we will building
 the `merge` and `branch` commands.
 
@@ -57,20 +53,20 @@ let's get the commit tree structure of the second commit
 ```
 
 As we can see that the hash of the file `hello.txt` is different in the both tree object, because the first commits
-hello.txt holds the value `hello` and the second commits hello.txt holds the value `second`, so it has the different
+hello.txt holds the value `hello` and the second commits hello.txt holds the value `second`. So it has the different
 hash in the both commits tree structure.
 
 As for the case of file `world.txt` its content remained the same in the both commits, so hash was not different, and
-git does not have to store two different compressed files storing the same file content, so git do not save the additional
-file for same content across the different commits, it just add the hash of the file, this is how git saves the
+git does not have to store two different compressed files storing the same file content. So git do not save the additional
+file for same content across the different commits, it just add the hash of the file. This is how, git saves the
 storage space for the codebase with millions of line of code and thousands of file.
 
 ##### Implementing the `parent` chain
 
 So we do not have to modify our code of storing the `blob` and `tree` object, and keep updating the `.git/HEAD` to
 point to the latest commit. We have to add the `parent` hash to the new commits, we can know if the commit is root-commit
-or not by checking for the `.git/HEAD` file, if the file exists then the commit is not a root-commit and add the
-`.git/HEAD` files hash as the parent hash in the commit object, if we do not find the file, then the commit is a
+or not by checking for the `.git/HEAD` file. If the file exists then the commit is not a root-commit and add the
+`.git/HEAD` files hash as the parent hash in the commit object. If we do not find the file, then the commit is a
 root-commit and we do not have to add a parent hash to the commit object.
 
 We will introduce an abstraction to updating the `HEAD` file to update the `HEAD` file easily and safely.
@@ -115,7 +111,7 @@ func (r ref) UpdateHead(oid []byte) error {
 ```
 
 Let's add a function that will return the hash string that the `HEAD` file is storing if the file exist, else the
-function will return the empty string if the file do not exists, this will tell that the file do not exists, and this
+function will return the empty string if the file do not exists. This will tell that the file do not exists, and this
 is root-commit.
 
 ```go
@@ -223,16 +219,16 @@ So our new commit has the parent field in it. Great.
 ##### Safely updating `.git/HEAD`
 
 When we were creating our code to store the `blob` object we where first writing to a temp file and then renaming
-it to the permanent file name, because there might be a case where we are writing to a file, and at the same time
+it to the permanent filename. Because there might be a case where we are writing to a file, and at the same time
 another program is reading that file, so the reading program will see the uncomplete content written to file.
 So for it not to happen we first write to a temp file and when the writing is complete we rename the file to the
-permanent file name.
+permanent filename.
 
 In case of `.git/HEAD` this means that while we are updating the file, other program might try to read it, and it
 might see an empty string or a partial hash of the commit.
 
-Files in `.git/objects` never change; because the names of the object files are determined by the files content, under
-the assumption that SHA1 is doing its job, so for us it does not matter that which of the two different program wins
+Files in `.git/objects` never change; because the names of the object files are determined by the file's content, under
+the assumption that SHA1 is doing its job. So for us it does not matter that which of the two different program wins
 because they are writing the same content. All we care that this process appears to be atomic and when we read the file
 they have the full content in them. For this purpose it's sufficient to pick a random filename to write the data out to,
 and then rename this file.
@@ -241,7 +237,7 @@ This is not the case for `.git/HEAD` and other refernces - their while purpose i
 and change their content over time, enabling us to find the latest commit without the need to know its ID. Writes to
 them must still appear atomic, but we must not preassume that two process are trying to write the same thing to the file.
 In fact we should preassume that both are trying to write different references to the file is an error, because unless
-those process are explicity co-ordinating with each other, they will probably disagree about the state of the system
+those process are explicity co-ordinating with each other. They will probably disagree about the state of the system
 and the final value of reference will depend on whichever process finish last.
 
 Such [race condition](https://en.wikipedia.org/wiki/Race_condition) become even more important when data must be read
@@ -252,7 +248,7 @@ another process while we're making this decision.
 So what can we do? We can solve this problem by introducting a new abstraction called a `Lockfile`. This will be
 initialised with the path of the file we want to change, and it will attemp to open a file to write to by appending `.lock` to the original pathname. We need to pick a well-know
 name rather than generating a random pathname, because the whole point is to prevent two processes from getting access
-to the same resource at once, and this is easier if they're both trying to access the same file.
+to the same resource at once. And this is easier if they're both trying to access the same file.
 
 Let's begin writing.
 
@@ -358,7 +354,7 @@ already exists, we return the error.
 
 After aquiring the lock we need two further methods `write` and `commit`. The write method builds up data to be written
 to the original file, by writing to the file with `.lock`. Then after the writing will be done, the `commit` function
-will rename the file to the original file name, and will update the `lockFile.Lock` to null, so that no more data can
+will rename the file to the original filename, and will update the `lockFile.Lock` to null, so that no more data can
 be written. Both of these function will stop when `lockFile.Lock` does not exists, since that indicates either that the
 lock has been released, or that the caller never acquired it in the first place.
 
@@ -447,4 +443,4 @@ Just know this,
 
 > Reinvent the wheel, so that you can learn how to invent wheel
 >
-> -– a nobody
+> – a nobody

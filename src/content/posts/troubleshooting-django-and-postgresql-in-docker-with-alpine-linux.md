@@ -2,12 +2,8 @@
 title: "Troubleshooting Django and PostgreSQL in docker with Alpine Linux"
 pubDate: 2024-08-25
 description: ""
-ogImage: "https://sunguoqi.com/me.png"
 author: "Guts Thakur"
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: []
+tags: ["postgres", "python", "django", "docker"]
 ---
 ![Docker with PostgreSQL](https://media.licdn.com/dms/image/v2/D4D12AQHcBXU9if3PGw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1724575772833?e=1736985600&v=beta&t=psxH5FPK9SWRfFsfReAjffB9teMWteMuCaBm3BtEemg)
 

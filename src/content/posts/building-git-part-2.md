@@ -1,13 +1,9 @@
 ---
 title: "Building Git: part II"
 pubDate: 2025-02-16
-description: "This is the first post of my new Astro blog."
-ogImage: "https://sunguoqi.com/me.png"
-author: "Astro Learner"
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: ["astro", "blogging", "learning-in-public"]
+description: "Extending the `commit` command in gitgo"
+author: "Guts Thakur"
+tags: ["git", "go", "system-tools"]
 ---
 ## Building Git: Part II
 
@@ -85,7 +81,7 @@ Now let's see what all those garbage value in the decompressed output are?
 
 In the hexdump output we can notice that all these garbage values are the
 hash value of the files, that are used to store the file data on the disk.
-This tells us where to look to get these files content.
+This tells us where to look to get these file's content.
 
 Now get to making this.
 
@@ -245,7 +241,8 @@ func StoreObject(
 }
 ```
 
-We are creating multiple function for what we are saving on the disk, well the function are pretty much the same, the `StoreBlobObject` and `StoreTreeObject` do pretty much the same thing, but they have different prefix and data(I will have to look into
+We are creating multiple function for what we are saving on the disk, well the function are pretty much the same, the `StoreBlobObject` and `StoreTreeObject` do pretty much the same thing. 
+But they have different prefix and data(I will have to look into
 it how to make it into one function, buts thats for later). Both function uses the `StoreObject` function that stores there
 data into the disk, it does the blah blah blah... you get the idea this is what we did in the previous part. The `CreateTreeEntry`
 function creates the data from the slice of the file entries, that will store the file mode, file name, and file's hash.
@@ -331,7 +328,7 @@ func generateGitTempFileName(prefix string) string {
 ```
 
 In the utility file, we are removing the files that are meant to be ignored(defined currently in a global variable with
-only 3 files or dirs in it). And we are generating the temp file name.
+only 3 files or dirs in it). And we are generating the temp filename.
 
 #### Storing the `commit` object
 
@@ -350,25 +347,25 @@ Firstly comes the prefix, in this case `commit` and then the length of the conte
 
 Commits are stored as series of headers and then the commit message
 
-- tree: All commit refer to a single tree that represents the state of your code at this commit,
-  instead of storing the diffs it stores the pointer of snampshot to all
+- *tree*: All commit refer to a singletree that represents the state of your code at this commit.
+  Instead of storing the diffs it stores the pointer of snampshot to all
   the files and dirs data on that commit, we make it space-efficient by using the compression techniques.
 
-- author: This field is metadata, it contains the name, email and unix timestamp for when it was authored.
+- *author*: This field is metadata, it contains the name, email, and unix timestamp for when it was authored.
 
-- committer: This is also metadata, often same as author. But may differ in case where somebody writes some changes and then someone else amends the commit, or cherry-picks it onto another branch.
+- *committer*: This is also metadata, often same as author. But may differ in case where somebody writes some changes and then someone else amends the commit, or cherry-picks it onto another branch.
   Its time reflects the time the commit was actually written,
   while the author retains the time the content was authored.
   These distinctions originate from the workflow used by the Linux Kernel, which `git` was originally developed to support.
 
 The commit message is what the committer defined in the commit, telling about what was done in the commit.
-The user can give an flag `--message` or `-m` and then write there commit message inside the quotes, this
+The user can give a flag `--message` or `-m` and then write there commit message inside the quotes, this
 approach can be quite limiting in case of multi-line or long line commit message
 
 Other option is to call the command without any flags, then the git will open the file `.git/COMMIT_EDITMSG` in a text
-editor(usually nano). Then the user writes there messages in that file, saves and then closes that file.
+editor(usually nano). Then the user writes there messages in that file, saves and, then closes that file.
 The `git` then reads the commit message from this file.
-Currently, we will be reading the commit message using the stdin(standard in) file by either echoing the message or using
+Currently, we will be reading the commit message using the standard in file by either echoing the message or using
 the cat on the file we stored the commit message in, then piping them
 to the `commit` command of out _gitgo_.
 
@@ -382,12 +379,12 @@ command as its input and so on.
 pacman -Q | grep discord
 ```
 
-In the above command we are getting all the packages installed on the system(i use arch btw...), getting its output
+In the above command we are getting all the packages installed on the system(I use arch btw...), getting its output
 and then feeding its output to the grep as the input and searching
 for the package named discord.
 
-Now, for the case of getting the _author_ and _committer_ detail, git does so by creating a global `.gitconfig` file that defines the users name and email. But for now we will get
-the users name and email from the unix environment variable.
+Now, for the case of getting the _author_ and _committer_ detail, git does so by creating a global `.gitconfig` file that defines the user's name and email. But for now we will get
+the user's name and email from the unix environment variable.
 
 When ever you start your terminal or system for that matter your operating system defines some environment variables
 run this command in your terminal
@@ -407,8 +404,8 @@ export GITGO_AUTHOR_EMAIL=test@example.com
 ```
 
 By using this if you restart your terminal or system, these environment variables will be lost, so you will have to re-export
-them if that is not a problem then thats good(that's what i did), but for some case you want it to persist you can add these
-line to your shells script that start when you log in to your computer or start the terminal, if you are using bash then
+them if that is not a problem then thats good(that's what I did). 
+But for some case you want it to persist you can add these line to your shells script that start when you log into your computer or start the terminal. If you are using bash then
 in your home dir you will have file `.bashrc` add these line at the end of it, save it and restart it. You can find your
 shell startup file in the home dir ending with _rc_.
 
@@ -515,7 +512,7 @@ func StoreCommitObject(commitData string) (string, error) {
 
 Here we have created some structs to define the author and the commit and the functions associated to them that will
 return the metadata that is stored in the commit, which we used in the `cmdCommitHandler` function. A function to read
-the input that is given from the stdin, here we are reading till we encounter the new line which is currently a limitation.
+the input that is given from the standard input, here we are reading till we encounter the newline which is currently a limitation.
 Then the usual storing the object to the disk.
 
 Now we will create a new file inside out `.gitgo` directory named `HEAD` that will currently store the commits ID in it.
@@ -610,7 +607,7 @@ Cool, everything is as we expected it to be.
 ## Afterwords
 
 So, in this blog we extended our `commit` command to create files for storing the root tree structure and the commit object,
-we are no where near what git does but its a good steady start.
+we are nowhere near what git does but it's a good steady start.
 
 In next part we will be working on storing the history.
 
@@ -620,4 +617,4 @@ Just know this,
 
 > Reinvent the wheel, so that you can learn how to invent wheel
 >
-> -- a nobody
+> – a nobody

@@ -1,13 +1,9 @@
 ---
 title: "Implementing Sorted Set in Go"
 pubDate: 2025-04-21
-description: ""
-ogImage: "https://sunguoqi.com/me.png"
-author: ""
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: []
+description: "Implementing the Sorted set, that we will use in our `gitgo` project."
+author: "Guts Thakur"
+tags: ["data-structures", "go", "redis"]
 ---
 In this post, we will be implementing the **Sorted Set** data structure in _Go_. Why? well because while working on my
 git project and following the book, the author used the ruby's sorted set in the code. So that's why I was also looking
@@ -37,13 +33,13 @@ on skip list.
 Skip list is an easier alternative to the tree-type data-structures, that gives us the probabilitic(not deterministic,
 meaning for most of the time) `O(log n)` time complexity for FINDING/INSERTING/REMOVING an element while maintaining
 the desired order.
-Skip list is built upon linked list, which just holds two value (i) the value itself, and (ii) the pointer to the next
+Skip list is built upon linked list, which just holds two value (1) the value itself, and (2) the pointer to the next
 node in the structure.
 The difference comes in skip list is that it also have the **levels** added in this.
 
 What skip list does, is it adds more linked list and adds them in level order, the lowest level has all the nodes,
 the level above it will probabilistically have the half as much node and so on. So that when we start the top level,
-search our element in that level, if we don't find the element in that level or found the greater value, we go a
+search our element in that level, if we don't find the element in that level or found the greater value. We go a
 level down till we find the value, if we do not found it, then it is not present in the skip list.
 
 Let's first get the stucture in place.
@@ -86,7 +82,7 @@ Level 0: head ▶ A ▶ B ▶ C ▶ D ▶ E ▶ nil
 ```
 
 If we will see the tower array of the head node, in the tower[0], that is level 0 of skip list,
-will have the pointer to the node A, then the tower[1], that is level 1 of skip list,
+will have the pointer to the node A, then the tower[1]. That is level 1 of skip list,
 will have the pointer to the node C, and so on.
 So without having to make multiple linked list data, we will have a single linked list.
 
@@ -106,7 +102,7 @@ func NewSkipList() *SkipList {
 #### Find
 
 Now we want to implement the `Find` feature of the skip list, that will take the key and searches
-the whole skiplist and if the key is found, returns its value otherwise based on your preference, return either a bool, error or anything else.
+the whole skiplist and if the key is found. Returns its value otherwise based on your preference, return either a bool, error, or anything else.
 
 ```go
 func (s *SkipList) Find(key []byte) ([]byte, error) {
@@ -160,7 +156,7 @@ But wait before that, we need to get what height of what level the node we are i
 meaning should it only be added the level 0 or to more upper level?
 To do so, we have two ways, firstly we can have a function `coinToss` that will simulate the tossing of coin.
 If we get _HEAD_ we will bump the node a level, we will do so until we get _TAIL_. Suppose we added a node,
-it will first be added to the level 0 (all nodes are required to be added in level 0), then we will
+it will first be added to the level 0 (all nodes are required to be added in level 0). Then we will
 toss the coin, if we get the _TAIL_ on the first toss, we will stop there, so the inserted node will only remain in
 the level 0.
 Secondly, we can use a function that will generate a random number and then based on that number,
@@ -205,7 +201,7 @@ func randomHeight() int {
 In this we are initializing the `probabilites` array (notice; array not slice), after that
 we are populating it with the `uint32` values. The logic behind is that if in case we
 `uint32` whose max value is `10`(for examples sake) we can have `2` probability of
-`0-5` will occupy the level 1 and `5-10` will occupy the level 2, we can further divide
+`0-5` will occupy the level 1 and `5-10` will occupy the level 2. We can further divide
 the `5-10`, so that `5-7` occupy the level 2 and `7-10` occupy the level 3, and so on.
 
 The `init` function is called automatically by the _Go_ while compiling the package.

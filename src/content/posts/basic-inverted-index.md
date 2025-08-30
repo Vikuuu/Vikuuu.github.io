@@ -1,12 +1,8 @@
 ---
 title: "Basic Inverted Index"
 pubDate: 2025-06-22
-description: ""
-ogImage: "https://sunguoqi.com/me.png"
-author: ""
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
+description: "Implementing the Inverted Indexing in Go"
+author: "Guts Thakur"
 tags: ["index", "go", "database", "information retrieval"]
 ---
 ![inverted index image](../../assets/index.png)
@@ -451,7 +447,7 @@ Just know this,
 
 > Reinvent the wheel, so that you can learn how to invent wheel
 >
-> -- a nobody
+> – a nobody
 
 ## References
 

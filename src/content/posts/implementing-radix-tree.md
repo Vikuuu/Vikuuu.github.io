@@ -1,17 +1,13 @@
 ---
 title: "Implementing Radix Trie"
 pubDate: 2025-08-24
-description: ""
-ogImage: "https://sunguoqi.com/me.png"
-author: ""
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: []
+description: "Implementation of Radix trie in Go."
+author: "Guts Thakur"
+tags: ["data-structures", "go"]
 ---
 ![Trie data-structure](../../assets/trie.png)
 
-While reading the book *Let's GO Further*, We are using the HTTP routing using the `httprouter` package 
+While reading the book, *Let's GO Further*. In it we are using the HTTP routing using the `httprouter` package 
 to make our API's. The one of the benefit the author tell about this package is that it uses the **Radix 
 Trie** for url path matching.
 
@@ -574,7 +570,7 @@ Just know this,
 
 > Reinvent the wheel, so that you can learn how to invent wheel
 >
-> -- a nobody
+> – a nobody
 
 ## References
 

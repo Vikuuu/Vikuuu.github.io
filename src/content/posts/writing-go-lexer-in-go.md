@@ -1,13 +1,9 @@
 ---
 title: "Writing Go lexer in Go"
 pubDate: 2024-11-12
-description: ""
-ogImage: "https://sunguoqi.com/me.png"
-author: "Astro Learner"
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: []
+description: "Building a parser and lexer in Go for Go."
+author: "Guts Thakur"
+tags: ["go", "lexing"]
 ---
 ![gopher image](https://miro.medium.com/v2/resize:fit:750/format:webp/1*YFGCnQTkFcGioPUGxZaAoA.jpeg)
 

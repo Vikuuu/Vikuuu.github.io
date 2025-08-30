@@ -1,13 +1,9 @@
 ---
 title: "Building Git: part I"
 pubDate: 2025-02-05
-description: ""
-ogImage: "https://sunguoqi.com/me.png"
-author: ""
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: []
+description: "Building Git, implementing `init` and `commit` command"
+author: "Guts Thakur"
+tags: ["git", "go", "system-tools"]
 ---
 ## Building Git : Part I
 
@@ -372,15 +368,15 @@ Using the path, we get all the files, dirs in that path (I think this is not sec
 this is the correct repository or path and what not, but
 that's not for now :) ). We remove all the files, dirs that
 are present in the `GITGO_IGNORE` slice.
-Then we loop over all the files & dirs in the `workFiles` slice.
-For now we are skipping the directories, then we read the files data and store it, creating a blob prefix, then
+Then we loop overall the files & dirs in the `workFiles` slice.
+For now we are skipping the directories, then we read the file's data and store it, creating a blob prefix, then
 getting the hash from the blob prefix, null byte and file data.
 This hash will give us the dir and file name, first 2 character for folder name, and then remaining for file name.
 
 We will create a temporary file and store the compressed data
 in it, so that no one can access it while the `commit` command
 is working.
-After writing to the temp file we rename it to the permanent file name and voila... We are done for now.
+After writing to the temp file we rename it to the permanent filename and voila... We are done for now.
 
 ## Afterword
 
@@ -400,4 +396,4 @@ Just know this,
 
 > Reinvent the wheel, so that you can learn how to invent wheel
 >
-> -- nobody
+> – nobody

@@ -2,12 +2,8 @@
 title: "Understanding Linux File System"
 pubDate: 2024-12-01
 description: ""
-ogImage: "https://sunguoqi.com/me.png"
-author: ""
-image:
-  url: "https://docs.astro.build/assets/rose.webp"
-  alt: "The Astro logo on a dark background with a pink glow."
-tags: []
+author: "Guts Thakur" 
+tags: ["linux", "file-system"]
 ---
 ## Introduction
 
