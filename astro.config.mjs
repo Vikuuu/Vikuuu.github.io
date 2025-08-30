@@ -13,7 +13,7 @@ import robotsTxt from "astro-robots-txt"
 export default defineConfig({
   output: "static",
   prefetch: true,
-  site: "https://vikuuu.github.io",
+  site: "https://vikuuu.github.io/",
   vite: {
     plugins: [tailwindcss()],
   },
