@@ -1,0 +1,43 @@
+---
+import { Rss } from "lucide-react"
+import { ThemeToggle } from "~/components/react/theme-toggle"
+import { en } from "~/config"
+
+const config = en
+---
+
+<header class="flex h-24 w-full items-center justify-between">
+    <a href="/" aria-label={`${config.siteName}`}>
+        <div class="text-2xl font-semibold">{config.siteName}</div>
+    </a>
+
+    <div class="flex items-center gap-6">
+        {
+            config.rss && (
+                <a
+                    href={"/rss.xml"}
+                    target="_blank"
+                    aria-label="RSS"
+                    title="RSS"
+                >
+                    <Rss />
+                </a>
+            )
+        }
+        {
+            config.social.map((social) => (
+                <a
+                    href={social.link}
+                    target="_blank"
+                    class="hidden md:block"
+                    aria-label={social.label}
+                    title={social.label}
+                >
+                    <social.icon />
+                </a>
+            ))
+        }
+
+        <ThemeToggle client:load />
+    </div>
+</header>

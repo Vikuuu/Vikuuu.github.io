@@ -1,0 +1,31 @@
+---
+import TagComponent from "~/components/astro/tag.astro"
+import { getAllPosts } from "~/utils"
+
+export interface Props {
+    posts: any
+    tag: string
+}
+
+export async function getStaticPaths() {
+    const posts = await getAllPosts()
+
+    if (!posts || posts.length === 0) {
+        return []
+    }
+
+    const uniqueTags = [
+        ...new Set(posts.flatMap((post: any) => post.data.tags ?? [])),
+    ]
+
+    return uniqueTags.map((tag) => ({
+        params: { tag: String(tag) },
+        props: {
+            posts,
+            tag: String(tag),
+        },
+    }))
+}
+---
+
+<TagComponent {...Astro.props} />

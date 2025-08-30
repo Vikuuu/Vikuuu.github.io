@@ -1,0 +1,99 @@
+---
+import { NoiseBackground } from "~/components/react/noise-background"
+import { GoogleAnalytics } from "astro-google-analytics"
+import { en } from "~/config"
+import { ClientRouter } from "astro:transitions"
+
+import "~/styles/tailwind.css"
+import "~/styles/view-transition.css"
+
+const { title, description, ogImage } = Astro.props
+
+const ogImageURL = new URL(ogImage, Astro.site).href
+const permalink = new URL(Astro.url.pathname, Astro.site).href
+
+const config = en
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/png" href={config.meta.favicon} />
+        <title>
+            {
+                title
+                    ? `${config.meta.title} - ${title}`
+                    : `${config.meta.title} - ${config.meta.slogan}`
+            }
+        </title>
+        <meta name="generator" content={Astro.generator} />
+        <meta
+            name="description"
+            content={description ? description : config.meta.description}
+        />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={permalink} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImageURL} />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={permalink} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content={ogImageURL} />
+
+        <script is:inline>
+            const setTheme = () => {
+                const theme =
+                    localStorage.getItem("theme") ??
+                    (window.matchMedia("(prefers-color-scheme: dark)").matches
+                        ? "dark"
+                        : "light")
+
+                if (theme === "dark") {
+                    document.documentElement.classList.add("dark")
+                    document.documentElement.setAttribute(
+                        "data-theme",
+                        "material-theme-darker",
+                    )
+                } else {
+                    document.documentElement.classList.remove("dark")
+                    document.documentElement.setAttribute(
+                        "data-theme",
+                        "material-theme-lighter",
+                    )
+                }
+            }
+
+            setTheme()
+
+            document.addEventListener("astro:after-swap", setTheme)
+            document.addEventListener("astro:page-load", setTheme)
+        </script>
+
+        <script
+            is:inline
+            src="https://umami.guoqi.dev/script.js"
+            data-website-id="759e9e56-20d3-463b-8d6e-abba5c53128b"
+            data-domains="astro-air.guoqi.dev"></script>
+
+        {
+            config.googleAnalyticsId && (
+                <GoogleAnalytics id={config.googleAnalyticsId} />
+            )
+        }
+        <ClientRouter />
+    </head>
+    <body
+        class="flex min-h-screen w-full justify-center px-6 md:px-0 dark:bg-[#121212] dark:text-white"
+    >
+        <slot />
+        <NoiseBackground />
+    </body>
+</html>

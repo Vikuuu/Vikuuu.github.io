@@ -1,0 +1,6 @@
+---
+import Twikoo from "~/components/astro/twikoo.astro"
+import { common } from "~/config"
+---
+
+{common.comments.enabled && common.comments.twikoo.enabled && <Twikoo />}

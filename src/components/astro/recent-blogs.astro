@@ -1,0 +1,15 @@
+---
+import { common } from "~/config"
+import { getAllPosts } from "../../utils/index"
+import PostList from "./post-list.astro"
+
+const allPosts = await getAllPosts()
+const posts = allPosts.slice(0, common.latestPosts)
+---
+
+<div class="my-8 text-xl font-medium md:my-8">{"Latest Blogs"}</div>
+{
+    posts.map((post: any) => (
+        <PostList post={post} dateFormat="YYYY-MM-DD" dateWidth="w-32" />
+    ))
+}
