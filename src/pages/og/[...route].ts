@@ -8,7 +8,6 @@ const writings = await getAllWritings()
 // Transform the collection into an object
 // @ts-ignore
 const pages = Object.fromEntries(posts.map(({ id, data }) => [id, { data }]))
-const writings = Object.fromEntries(writings.map(({id, data}) => [id, {data}]))
 
 export const { getStaticPaths, GET } = OGImageRoute({
   // The name of your dynamic route segment.

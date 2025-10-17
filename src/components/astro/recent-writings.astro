@@ -1,7 +1,7 @@
 ---
 import { common } from "~/config"
 import { getAllWritings } from "../../utils/index"
-import PostList from "./writings.astro"
+import PostList from "./writings-list.astro"
 
 const allWritings = await getAllWritings()
 const writings = allWritings.slice(0, common.latestPosts)
