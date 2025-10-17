@@ -20,7 +20,7 @@ export const common = {
   navigation: {
     home: true,
     archive: true,
-    // links: true,
+    writings: true,
     about: true,
   },
   latestPosts: 5,
@@ -52,10 +52,10 @@ export const en = {
       description: "Here are all the posts",
       ogImage: "/images/page-meta/en/archive.png",
     },
-    links: {
-      title: "My Friends",
-      description: "Here are Guoqi Sun's friends",
-      ogImage: "/images/page-meta/en/links.png",
+    writings: {
+      title: "Writings",
+      description: "Here are all my writings",
+      ogImage: "",
     },
     about: {
       title: "About Me",

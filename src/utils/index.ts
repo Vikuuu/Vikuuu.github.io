@@ -33,3 +33,11 @@ export const getAllPosts = async (): Promise<PostEntry[]> => {
       new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
   )
 }
+
+export const getAllWritings = async(): Promise<PostEntry[]> => {
+    const writings = await getCollection("writings")
+    return writings.sort(
+        (a, b) =>
+          new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
+    )
+}

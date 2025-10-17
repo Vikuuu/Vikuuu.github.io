@@ -1,7 +1,7 @@
 ---
 import { en } from "~/config"
 
-const { home, archive, about } = en.navigation
+const { home, archive, about, writings } = en.navigation
 ---
 
 <div
@@ -43,6 +43,19 @@ const { home, archive, about } = en.navigation
                 data-astro-prefetch="viewport"
             >
                 <p>{"../ about"}</p>
+            </a>
+        )
+    }
+    {
+        writings && (
+            <a
+                href={`/writings`}
+                class="hover:underline hover:underline-offset-4"
+                aria-label={"./writings"}
+                title={"./writings"}
+                data-astro-prefetch="viewport"
+            >
+                <p>{"../ writings"}</p>
             </a>
         )
     }

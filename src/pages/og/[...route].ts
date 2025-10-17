@@ -1,12 +1,14 @@
 import { OGImageRoute } from "astro-og-canvas"
 import { defaultLanguage } from "~/config"
-import { getAllPosts } from "~/utils"
+import { getAllPosts, getAllWritings } from "~/utils"
 
 const posts = await getAllPosts()
+const writings = await getAllWritings()
 
 // Transform the collection into an object
 // @ts-ignore
 const pages = Object.fromEntries(posts.map(({ id, data }) => [id, { data }]))
+const writings = Object.fromEntries(writings.map(({id, data}) => [id, {data}]))
 
 export const { getStaticPaths, GET } = OGImageRoute({
   // The name of your dynamic route segment.
