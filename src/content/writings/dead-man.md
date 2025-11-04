@@ -1,7 +1,7 @@
 ---
 title: "Dead Man"
 description: "About a crisis."
-pubDate: 2025-10-07
+pubDate: 2025-11-03
 author: "Guts Thakur"
 tags: ["writing"]
 ---
