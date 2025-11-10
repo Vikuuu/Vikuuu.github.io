@@ -4,6 +4,7 @@ pubDate: 2025-09-30
 description: "Implementing `status` command"
 author: "Guts Thakur"
 tags: ["git", "go", "system-tools"]
+draft: true
 ---
 
 ## Refactoring
