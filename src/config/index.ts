@@ -42,15 +42,15 @@ export const en = {
     ...common.meta,
     title: "Just Build it...",
     slogan: "Reinventing the wheel...?",
-    description: "Reading, Photography, Programming, Traveling",
+    description: "Programming, Writing",
   },
   navigation: {
     ...common.navigation,
   },
   pageMeta: {
     projects: {
-        title: "All Projects",
-        description: "My Projects",
+        title: "Projects",
+        description: "Here are all my projects",
         ogImage: "",
     },
     archive: {
@@ -65,7 +65,7 @@ export const en = {
     },
     about: {
       title: "About Me",
-      description: "Here is Guoqi Sun's self-introduction",
+      description: "About Guts Thakur, if you will",
       ogImage: "/images/page-meta/en/about.png",
     },
   },

@@ -24,9 +24,9 @@ const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a))
 ---
 
 <MainLayout
-    title={pageMeta.writings.title}
-    description={pageMeta.writings.description}
-    ogImage={pageMeta.writings.ogImage}
+    title={pageMeta.projects.title}
+    description={pageMeta.projects.description}
+    ogImage={pageMeta.projects.ogImage}
 >
     {
         years.map((year) => (
