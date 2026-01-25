@@ -1,0 +1,33 @@
+---
+title: "Load Balancer"
+pubDate: 2025-09-18
+description: "Implemented Load Balancer in Go"
+author: "Guts Thakur"
+tags: ["go", "programming"]
+---  
+import { LinkPreview } from 'astro-embed';
+
+<LinkPreview id="https://github.com/Vikuuu/load-balancer" / >
+
+Implemented a load balancer in Go programming language, with the weighted distribution algorithm.
+
+Read the YAML configuration file to get the number
+of servers
+
+```yaml
+servers:
+	server: name1
+		weight: 0
+	server: name2
+		weight: 50
+	server: name3
+		weight: 100
+```
+
+Add these servers with there weight information in a minimum heap,
+that orders itself according to the number of requests that a single
+server is handling.
+
+Regular health checks of the servers, if a server is down move it
+to the `down` queue and checking it on the intervals to see if they are
+back up or not.

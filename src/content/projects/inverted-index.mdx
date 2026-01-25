@@ -1,0 +1,123 @@
+---
+title: "Inverted Index"
+pubDate: 2025-06-22
+description: "Inverted Index implementation in Go"
+author: "Guts Thakur"
+tags: ["go", "database programming", "information retrieval"]
+---
+import { LinkPreview } from 'astro-embed';
+
+<LinkPreview id="https://github.com/Vikuuu/inverted-index" / >
+
+Inverted Index implementation in Go
+
+A toy implementation of **Inverted Index** in go, that powers most if not all the **Information Retrieval** for
+_web engine_, _Elasticsearch_, and more.
+
+## Example
+
+Doc 1
+
+I did enact Julius Caesar: I was killed i' the Capiot; Brutus killed me.
+
+Doc 2
+
+So let it be with Caesar. The noble Brutus hath told you Caesar was ambitious.
+
+| term      | docID |
+| --------- | ----- |
+| I         | 1     |
+| did       | 1     |
+| enact     | 1     |
+| julius    | 1     |
+| caesar    | 1     |
+| I         | 1     |
+| was       | 1     |
+| killed    | 1     |
+| i'        | 1     |
+| the       | 1     |
+| capitol   | 1     |
+| brutus    | 1     |
+| killed    | 1     |
+| me        | 1     |
+| so        | 2     |
+| let       | 2     |
+| it        | 2     |
+| be        | 2     |
+| with      | 2     |
+| caesar    | 2     |
+| the       | 2     |
+| noble     | 2     |
+| brutus    | 2     |
+| hath      | 2     |
+| told      | 2     |
+| you       | 2     |
+| caesar    | 2     |
+| was       | 2     |
+| ambitious | 2     |
+
+Sorted :
+
+| term      | docID |
+| --------- | ----- |
+| ambitious | 2     |
+| be        | 2     |
+| brutus    | 1     |
+| brutus    | 2     |
+| capitol   | 1     |
+| caesar    | 1     |
+| caesar    | 2     |
+| caesar    | 2     |
+| did       | 1     |
+| enact     | 1     |
+| hath      | 1     |
+| I         | 1     |
+| I         | 1     |
+| i'        | 1     |
+| it        | 2     |
+| julius    | 1     |
+| killed    | 1     |
+| killed    | 1     |
+| let       | 2     |
+| me        | 1     |
+| noble     | 2     |
+| so        | 2     |
+| the       | 1     |
+| the       | 2     |
+| told      | 2     |
+| you       | 2     |
+| was       | 1     |
+| was       | 2     |
+| with      | 2     |
+
+Result:
+
+| term      | doc. freq | postings lists |
+| --------- | --------- | -------------- |
+| ambitious | 1         | 2              |
+| be        | 1         | 2              |
+| brutus    | 2         | 1 -> 2         |
+| capitol   | 1         | 1              |
+| caesar    | 2         | 1 -> 2         |
+| did       | 1         | 1              |
+| enact     | 1         | 1              |
+| hath      | 1         | 2              |
+| I         | 1         | 1              |
+| i'        | 1         | 1              |
+| it        | 1         | 2              |
+| julius    | 1         | 1              |
+| killed    | 1         | 1              |
+| let       | 1         | 2              |
+| me        | 1         | 1              |
+| noble     | 1         | 2              |
+| so        | 1         | 2              |
+| the       | 2         | 1 -> 2         |
+| told      | 1         | 2              |
+| you       | 1         | 2              |
+| was       | 2         | 1 -> 2         |
+| with      | 1         | 2              |
+
+Process :-
+
+Document -> Tokenizer -> Linguistic models -> Indexer
+
