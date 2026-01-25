@@ -1,0 +1,42 @@
+---
+// src/components/Giscus.astro
+---
+
+<div class="giscus"></div>
+
+<script>
+    function loadGiscus() {
+        const script = document.createElement("script")
+        script.src = "https://giscus.app/client.js"
+        script.setAttribute("data-repo", "vikuuu/Vikuuu.github.io") // Change to your repository
+        script.setAttribute("data-repo-id", "R_kgDOPm7EDw") // Change to your repo-id
+        script.setAttribute("data-category", "Comments")
+        script.setAttribute("data-category-id", "R_kgDOPm7EDw") // Change to your category-id
+        script.setAttribute("data-mapping", "pathname")
+        script.setAttribute("data-reactions-enabled", "1")
+        script.setAttribute("data-emit-metadata", "0")
+        script.setAttribute("data-input-position", "bottom")
+        script.setAttribute("data-theme", "light")
+        script.setAttribute("data-lang", "en")
+        script.setAttribute("crossorigin", "anonymous")
+        script.async = true
+
+        const container = document.querySelector(".giscus")
+        if (container) {
+            container.innerHTML = "" // Clear container to avoid duplicate loading
+            container.appendChild(script)
+        }
+    }
+
+    // Initialize on first page load
+    loadGiscus()
+
+    // [KEY] Listen for Astro's view transition event, reload comments when pages switch
+    document.addEventListener("astro:page-load", loadGiscus)
+</script>
+
+<style>
+    .giscus {
+        margin-top: 2rem;
+    }
+</style>

@@ -1,6 +1,6 @@
 ---
 import { render } from "astro:content"
-import Comments from "../../components/astro/comments.astro"
+import Giscus from "../../components/astro/Giscus.astro"
 import MainLayout from "../../layouts/main.astro"
 import "~/styles/post.css"
 import "~/styles/post.scss"
@@ -49,6 +49,6 @@ const { Content } = await render(post)
     </article>
 
     <div class="my-10">
-        <Comments />
+        <Giscus />
     </div>
 </MainLayout>
