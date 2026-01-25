@@ -29,6 +29,7 @@ const projectSchema = z.object({
   heroImage: z.string().optional(),
   ogImage: z.string().optional(),
   tags: z.array(z.string()).optional(),
+  top: z.boolean().optional(),
 })
 
 const PostsCollection = defineCollection({

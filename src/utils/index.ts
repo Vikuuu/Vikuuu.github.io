@@ -51,3 +51,15 @@ export const getAllProjects = async(): Promise<ProjectEntry[]> => {
           new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
     )
 }
+
+export const getTopProjects = async (): Promise<ProjectEntry[]> => {
+  const projects = await getCollection("projects")
+  return projects
+    .filter(project => project.data.top)
+    .sort(
+      (a, b) =>
+        new Date(b.data.pubDate).getTime() -
+        new Date(a.data.pubDate).getTime()
+    )
+}
+
