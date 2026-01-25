@@ -5,7 +5,6 @@ description: ""
 author: "Guts Thakur"
 tags: ["postgres", "python", "django", "docker"]
 ---
-![Docker with PostgreSQL](https://media.licdn.com/dms/image/v2/D4D12AQHcBXU9if3PGw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1724575772833?e=1736985600&v=beta&t=psxH5FPK9SWRfFsfReAjffB9teMWteMuCaBm3BtEemg)
 
 # Introduction
 

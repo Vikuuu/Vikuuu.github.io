@@ -5,7 +5,6 @@ description: ""
 author: "Guts Thakur"
 tags: ["docker", "python", "django", "swagger"]
 ---
-![Docker with Python](https://media.licdn.com/dms/image/v2/D4D12AQHXcpiB7UmjCA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1725613478055?e=1736985600&v=beta&t=RvCQCc_ZAEuOo8EbHHFpBH3BSVVga9jy69qSp2YT3PQ) 
 
 ```bash
 ModuleNotFoundError: No module named 'pkg_resources'
