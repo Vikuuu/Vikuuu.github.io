@@ -6,6 +6,7 @@ import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers"
 import tailwindcss from "@tailwindcss/vite"
 import expressiveCode from "astro-expressive-code"
 import { defineConfig } from "astro/config"
+import embed from "astro-embed/integration";
 
 import robotsTxt from "astro-robots-txt"
 
@@ -28,7 +29,9 @@ export default defineConfig({
         showLineNumbers: true,
       },
     }),
+    embed(),
     mdx(),
     robotsTxt(),
   ],
+  image: { remotePatterns: [{ protocol: "https" }] },
 })

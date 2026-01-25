@@ -21,6 +21,16 @@ const writingSchema = z.object({
   tags: z.array(z.string()).optional(),
 })
 
+const projectSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  pubDate: z.coerce.date(),
+  updatedDate: z.coerce.date().optional(),
+  heroImage: z.string().optional(),
+  ogImage: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+})
+
 const PostsCollection = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/posts/" }),
   schema: postSchema,
@@ -31,7 +41,13 @@ const WritingsCollection = defineCollection({
     schema: writingSchema,
 })
 
+const ProjectsCollection = defineCollection({
+    loader: glob({pattern: "**/*.{md,mdx}", base: "src/content/projects/"}),
+    schema: projectSchema,
+})
+
 export const collections = { 
     posts: PostsCollection,
     writings: WritingsCollection,
+    projects: ProjectsCollection,
 }

@@ -19,6 +19,7 @@ export const common = {
   rss: true,
   navigation: {
     home: true,
+    projects: true,
     archive: true,
     writings: true,
     about: true,
@@ -47,6 +48,11 @@ export const en = {
     ...common.navigation,
   },
   pageMeta: {
+    projects: {
+        title: "All Projects",
+        description: "My Projects",
+        ogImage: "",
+    },
     archive: {
       title: "All Posts",
       description: "Here are all the posts",
