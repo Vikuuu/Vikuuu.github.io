@@ -1,0 +1,15 @@
+---
+import { common } from "~/config"
+import { getAllGists } from "../../utils/index"
+import GistList from "./gist-list.astro"
+
+const allGists = await getAllGists()
+const gists = allGists.slice(0, common.latestPosts)
+---
+
+<div class="my-8 text-xl font-medium md:my-8">{"Latest Gists"}</div>
+{
+    gists.map((gist: any) => (
+        <GistList gist={gist} dateFormat="YYYY-MM-DD" dateWidth="w-32" />
+    ))
+}

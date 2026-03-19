@@ -1,7 +1,7 @@
 ---
 import { en } from "~/config"
 
-const { home, projects, archive, about, writings } = en.navigation
+const { home, projects, archive, about, writings, gists } = en.navigation
 ---
 
 <div
@@ -12,11 +12,11 @@ const { home, projects, archive, about, writings } = en.navigation
             <a
                 href={`/`}
                 class="hover:underline hover:underline-offset-4"
-                aria-label={"../home"}
-                title={"../home"}
+                aria-label={"/home"}
+                title={"/home"}
                 data-astro-prefetch="viewport"
             >
-                <p>{"../home"}</p>
+                <p>{"/ home"}</p>
             </a>
         )
     }
@@ -25,11 +25,11 @@ const { home, projects, archive, about, writings } = en.navigation
             <a
                 href={`/projects`}
                 class="hover:underline hover:underline-offset-4"
-                aria-label={"../projects"}
-                title={"../projects"}
+                aria-label={"/projects"}
+                title={"/projects"}
                 data-astro-prefetch="viewport"
             >
-                <p>{"../projects"}</p>
+                <p>{"/ projects"}</p>
             </a>
         )
     }
@@ -38,11 +38,11 @@ const { home, projects, archive, about, writings } = en.navigation
             <a
                 href={`/archive`}
                 class="hover:underline hover:underline-offset-4"
-                aria-label={"../archive"}
-                title={"../archive"}
+                aria-label={"/archive"}
+                title={"/archive"}
                 data-astro-prefetch="viewport"
             >
-                <p>{"../archive"}</p>
+                <p>{"/ archive"}</p>
             </a>
         )
     }
@@ -51,11 +51,11 @@ const { home, projects, archive, about, writings } = en.navigation
             <a
                 href={`/about`}
                 class="hover:underline hover:underline-offset-4"
-                aria-label={"./about"}
-                title={"./about"}
+                aria-label={"/about"}
+                title={"/about"}
                 data-astro-prefetch="viewport"
             >
-                <p>{"../ about"}</p>
+                <p>{"/ about"}</p>
             </a>
         )
     }
@@ -64,11 +64,24 @@ const { home, projects, archive, about, writings } = en.navigation
             <a
                 href={`/writings`}
                 class="hover:underline hover:underline-offset-4"
-                aria-label={"./writings"}
-                title={"./writings"}
+                aria-label={"/writings"}
+                title={"/writings"}
                 data-astro-prefetch="viewport"
             >
-                <p>{"../ writings"}</p>
+                <p>{"/ writings"}</p>
+            </a>
+        )
+    }
+    {
+        gists && (
+            <a
+                href={`/gists`}
+                class="hover:underline hover:underline-offset-4"
+                aria-label={"/gists"}
+                title={"/gists"}
+                data-astro-prefetch="viewport"
+            >
+                <p>{"/ gists"}</p>
             </a>
         )
     }

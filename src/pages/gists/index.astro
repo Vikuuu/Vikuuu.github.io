@@ -1,0 +1,41 @@
+---
+import GistList from "../../components/astro/gist-list.astro"
+import { en } from "../../config"
+import MainLayout from "../../layouts/main.astro"
+import { getAllGists } from "../../utils"
+
+const pageMeta = en.pageMeta
+
+const gists = await getAllGists()
+
+const gistsByYear = gists.reduce(
+    (acc: Record<string, any[]>, gists: any) => {
+        const year = new Date(gists.data.pubDate).getFullYear().toString()
+        if (!acc[year]) {
+            acc[year] = []
+        }
+        acc[year].push(gists)
+        return acc
+    },
+    {} as Record<string, any[]>,
+)
+
+const years = Object.keys(gistsByYear).sort((a, b) => Number(b) - Number(a))
+---
+
+<MainLayout
+    title={pageMeta.gists.title}
+    description={pageMeta.gists.description}
+    ogImage={pageMeta.gists.ogImage}
+>
+    {
+        years.map((year) => (
+            <div class="year-group my-8">
+                <h2 class="my-4 text-2xl font-bold">{year}</h2>
+                {gistsByYear[year].map((gist: any) => (
+                    <GistList gist={gist} dateFormat="MM-DD" dateWidth="w-20" />
+                ))}
+            </div>
+        ))
+    }
+</MainLayout>

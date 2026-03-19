@@ -7,9 +7,7 @@ const postSchema = z.object({
   pubDate: z.coerce.date(),
   updatedDate: z.coerce.date().optional(),
   heroImage: z.string().optional(),
-  ogImage: z.string().optional(),
-  tags: z.array(z.string()).optional(),
-})
+  ogImage: z.string().optional(), tags: z.array(z.string()).optional(), })
 
 const writingSchema = z.object({
   title: z.string(),
@@ -22,6 +20,17 @@ const writingSchema = z.object({
 })
 
 const projectSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  pubDate: z.coerce.date(),
+  updatedDate: z.coerce.date().optional(),
+  heroImage: z.string().optional(),
+  ogImage: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  top: z.boolean().optional(),
+})
+
+const gistSchema = z.object({
   title: z.string(),
   description: z.string(),
   pubDate: z.coerce.date(),
@@ -47,8 +56,14 @@ const ProjectsCollection = defineCollection({
     schema: projectSchema,
 })
 
+const GistsCollection = defineCollection({
+    loader: glob({pattern: "**/*.{md,mdx}", base: "src/content/gists/"}),
+    schema: gistSchema,
+})
+
 export const collections = { 
     posts: PostsCollection,
     writings: WritingsCollection,
     projects: ProjectsCollection,
+    gists: GistsCollection,
 }

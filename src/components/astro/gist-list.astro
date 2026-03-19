@@ -1,0 +1,22 @@
+---
+interface Props {
+    gist: any
+    dateFormat?: string
+    dateWidth?: string
+}
+
+const { gist, dateFormat = "default", dateWidth = "w-36" } = Astro.props
+import { formatDate } from "~/utils"
+---
+
+<a
+    href={`/gists/${gist.id}/`}
+    class="my-3 flex visited:text-purple-500/90 md:my-2"
+>
+    <p
+        class={`flex ${dateWidth} flex-shrink-0 truncate text-gray-500 dark:text-gray-400`}
+    >
+        <time>{formatDate(gist.data.pubDate, dateFormat)}</time>
+    </p>
+    <p class="line-clamp-2 text-lg hover:underline">{gist.data.title}</p>
+</a>

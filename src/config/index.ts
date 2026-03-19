@@ -23,6 +23,7 @@ export const common = {
     archive: true,
     writings: true,
     about: true,
+    gists: true,
   },
   latestPosts: 5,
   comments: {
@@ -68,5 +69,10 @@ export const en = {
       description: "About Guts Thakur, if you will",
       ogImage: "/images/page-meta/en/about.png",
     },
+    gists: {
+        title: "Gists",
+        description: "Here are all my gists",
+        ogImage: "",
+    }
   },
 }

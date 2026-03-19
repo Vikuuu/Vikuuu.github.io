@@ -1,0 +1,54 @@
+---
+import { render } from "astro:content"
+import Comments from "../../components/astro/comments.astro"
+import MainLayout from "../../layouts/main.astro"
+import "~/styles/post.css"
+import "~/styles/post.scss"
+import { formatDate, getAllGists } from "../../utils"
+
+export async function getStaticPaths() {
+    const allPaths = []
+
+    const gists = await getAllGists()
+    const paths = gists.map((gist: any) => ({
+        params: { slug: gist.id },
+        props: { gist },
+    }))
+    allPaths.push(...paths)
+
+    return allPaths
+}
+
+const { gist } = Astro.props
+
+const { Content } = await render(gist)
+---
+
+<MainLayout {...gist.data}>
+    <article class="prose dark:prose-invert w-full max-w-3xl overflow-hidden">
+        <div class="flex flex-col gap-2">
+            <h2 class="!my-0 text-3xl font-semibold">{gist.data.title}</h2>
+            <div class="my-3 text-gray-500 dark:text-white/80">
+                {formatDate(gist.data.pubDate)}
+            </div>
+        </div>
+
+        <div class="my-6">
+            <Content />
+        </div>
+
+        <div class="space-x-3 pb-10 text-sm text-gray-500">
+            {
+                gist.data.tags.map((tag: string) => (
+                    <a href={`/tags/${tag}`} class="no-underline">
+                        <p class="inline-block hover:scale-105">#{tag}</p>
+                    </a>
+                ))
+            }
+        </div>
+    </article>
+
+    <div class="my-10">
+        <Comments />
+    </div>
+</MainLayout>

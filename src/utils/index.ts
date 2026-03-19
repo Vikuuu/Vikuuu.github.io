@@ -27,6 +27,7 @@ export const formatDate = (
 type PostEntry = CollectionEntry<"posts">
 type WritingEntry = CollectionEntry<"writings">
 type ProjectEntry = CollectionEntry<"projects">
+type GistEntry = CollectionEntry<"gists">
 
 export const getAllPosts = async (): Promise<PostEntry[]> => {
   const posts = await getCollection("posts")
@@ -63,3 +64,10 @@ export const getTopProjects = async (): Promise<ProjectEntry[]> => {
     )
 }
 
+export const getAllGists = async (): Promise<GistEntry[]> => {
+  const gists = await getCollection("gists")
+  return gists.sort(
+    (a, b) =>
+      new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
+  )
+}
